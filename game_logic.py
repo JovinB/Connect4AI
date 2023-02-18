@@ -152,10 +152,5 @@ class Game:
         self.game_over = False
         self.winner = ""
 
-
     def print_info(self):
         print(self.board)
-
-
-game = Game()
-game.print_info()
