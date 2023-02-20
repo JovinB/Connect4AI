@@ -113,18 +113,7 @@ class Game:
         return False
 
     def human_move(self, row, col):
-        if self.is_move_valid(row, col) and not self.game_over:
-            self.board[row][col] = "R"
-            # update UI
-
-            if self.is_a_winner(row, col, "R"):
-                self.game_over = True
-                self.winner = "R"
-            elif self.is_a_tie():
-                self.game_over = True
-                self.winner = "T"
-            else:
-                self.ai_move()
+        self.board[row][col] = "R"
 
     def ai_move(self):
         row = random.randint(0, self.num_rows - 1)
@@ -138,14 +127,7 @@ class Game:
                 col = random.randint(0, self.num_columns - 1)
 
         self.board[row][col] = "Y"
-        # update UI
-
-        if self.is_a_winner(row, col, "Y"):
-            self.game_over = True
-            self.winner = "Y"
-        elif self.is_a_tie():
-            self.game_over = True
-            self.winner = "T"
+        return row, col
 
     def reset_game(self):
         self.setup_board()
