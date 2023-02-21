@@ -71,14 +71,22 @@ class Board(tk.Tk):
             self.display["text"] = "Tie Game"
             self.display["fg"] = "black"
 
+    def piece_drop(self, row, col):
+        for row_num in range(self.game.num_rows - 1, row - 1, -1):
+            if self.game.is_move_valid(row_num, col):
+                row = row_num
+                break
+
+        return row
 
     def human_move_played(self, event):
         button = event.widget
         row, col = self.buttons[button]
 
         if not self.game.game_over and self.game.is_move_valid(row, col):
-            self.game.human_move(row, col)
-            self.update_button(button, "red")
+            row = self.piece_drop(row, col)
+            self.game.update_board(row, col, "R")
+            self.update_button([b for b, coords in self.buttons.items() if coords == (row, col)][0], "red")
 
             if self.game.is_a_winner(row, col, "R"):
                 self.game.game_over = True
@@ -98,6 +106,9 @@ class Board(tk.Tk):
         move = self.game.ai_move()
         row = move[0]
         col = move[1]
+
+        row = self.piece_drop(row, col)
+        self.game.update_board(row, col, "Y")
 
         button = [b for b, coords in self.buttons.items() if coords == (row, col)][0]
         self.update_button(button, "yellow")

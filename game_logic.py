@@ -112,8 +112,8 @@ class Game:
                 col -= 1
         return False
 
-    def human_move(self, row, col):
-        self.board[row][col] = "R"
+    def update_board(self, row, col, player):
+        self.board[row][col] = player
 
     def ai_move(self):
         row = random.randint(0, self.num_rows - 1)
@@ -126,7 +126,6 @@ class Game:
                 row = random.randint(0, self.num_rows - 1)
                 col = random.randint(0, self.num_columns - 1)
 
-        self.board[row][col] = "Y"
         return row, col
 
     def reset_game(self):
